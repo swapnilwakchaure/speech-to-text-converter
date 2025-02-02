@@ -30,8 +30,8 @@ Technology:
 3. Database: MongoDB
 
 ### Start the project
-mkdir voice-task-manager-backend
-cd voice-task-manager-backend
-yarn init -y
-yarn add express mongoose cors dotenv multer
-yarn add -D @deepgram/sdk typescript @types/express @types/cors @types/multer @types/node ts-node-dev
+- mkdir voice-task-manager-backend
+- cd voice-task-manager-backend
+- yarn init -y
+- yarn add express mongoose cors dotenv multer
+- yarn add -D @deepgram/sdk typescript @types/- express @types/cors @types/multer @types/node ts-node-dev
