@@ -2,8 +2,8 @@ import cors from "cors";
 import morgan from "morgan";
 import express from "express";
 import dotenv from "dotenv";
-import router from "./routes/taskRoute";
 import { connection } from "./config/db";
+import router from "./routes/index";
 dotenv.config();
 
 const port = process.env.port || 3030;

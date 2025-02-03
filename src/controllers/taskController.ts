@@ -14,6 +14,7 @@ export const upload = multer({ storage });
 export const createTaskFromAudio = async (req: Request, res: Response) => {
     try {
         const audioFile = req.file;
+        const { userId } = req.query;
 
         if (!audioFile) {
             res.status(400).json({ message: "No audio file uploaded." });
@@ -40,7 +41,7 @@ export const createTaskFromAudio = async (req: Request, res: Response) => {
 
         const text = result.results?.channels[0]?.alternatives[0]?.transcript;
 
-        const newTask = await taskModel.create({ text });
+        const newTask = await taskModel.create({ text, userId });
         res.status(201).json(newTask);
     } catch (error) {
         console.error(error);
@@ -50,7 +51,17 @@ export const createTaskFromAudio = async (req: Request, res: Response) => {
 
 export const getAllTasks = async (req: Request, res: Response) => {
     try {
-        const tasks = await taskModel.find().sort({ createdAt: -1 });
+        const { sortBy, userId } = req.query;
+
+        let sortOrder: Record<string, 1 | -1> = { createdAt: -1 };
+
+        if (sortBy === 'asc') {
+            sortOrder = { createdAt: 1 };
+        } else if (sortBy === 'desc') {
+            sortOrder = { createdAt: -1 };
+        }
+
+        const tasks = await taskModel.find({ userId }).sort(sortOrder);
         res.json(tasks);
     } catch (error) {
         console.error(error);
