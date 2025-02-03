@@ -6,7 +6,7 @@ import { connection } from "./config/db";
 import router from "./routes/index";
 dotenv.config();
 
-const port = process.env.port || 3030;
+const port = process.env.PORT || 3030;
 
 const app = express();
 
