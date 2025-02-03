@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const taskController_1 = require("../controllers/taskController");
+const userController_1 = require("../controllers/userController");
+const router = (0, express_1.Router)();
+router.post("/signup", userController_1.registerController);
+router.post("/signin", userController_1.loginController);
+router.post("/tasks/audio", taskController_1.upload.single("audio"), taskController_1.createTaskFromAudio);
+router.get("/tasks", taskController_1.getAllTasks);
+exports.default = router;
