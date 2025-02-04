@@ -41,8 +41,14 @@ export const createTaskFromAudio = async (req: Request, res: Response) => {
 
         const text = result.results?.channels[0]?.alternatives[0]?.transcript;
 
-        const newTask = await taskModel.create({ text, userId });
-        res.status(201).json(newTask);
+        if (text) {
+            const newTask = await taskModel.create({ text, userId });
+            res.status(201).json(newTask);
+            return;
+        } else {
+            res.status(401).json({ message: "Task is required", status: "error" });
+            return;
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
@@ -63,6 +69,25 @@ export const getAllTasks = async (req: Request, res: Response) => {
 
         const tasks = await taskModel.find({ userId }).sort(sortOrder);
         res.json(tasks);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+export const deleteTask = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        console.log({ id });
+
+        const deletedTask = await taskModel.findByIdAndDelete(id);
+
+        if (!deletedTask) {
+            res.status(404).json({ message: "Task not found" });
+            return;
+        }
+
+        res.status(200).json({ message: "Task deleted successfully", status: "success" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });

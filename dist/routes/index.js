@@ -8,4 +8,5 @@ router.post("/signup", userController_1.registerController);
 router.post("/signin", userController_1.loginController);
 router.post("/tasks/audio", taskController_1.upload.single("audio"), taskController_1.createTaskFromAudio);
 router.get("/tasks", taskController_1.getAllTasks);
+router.delete("/delete/:id", taskController_1.deleteTask);
 exports.default = router;
